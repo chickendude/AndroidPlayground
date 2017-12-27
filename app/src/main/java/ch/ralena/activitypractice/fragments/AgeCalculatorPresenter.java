@@ -6,6 +6,8 @@ import org.joda.time.Hours;
 import org.joda.time.Months;
 import org.joda.time.Weeks;
 
+import java.util.Locale;
+
 import ch.ralena.activitypractice.contracts.AgeCalculatorContract;
 
 /**
@@ -36,6 +38,6 @@ public class AgeCalculatorPresenter {
 	public String formatForPlural(String datePart, int value) {
 		if (value != 1)
 			datePart = datePart + "s";
-		return String.format("%d %s", value, datePart);
+		return String.format(Locale.getDefault(), "%d %s", value, datePart);
 	}
 }
