@@ -2,7 +2,6 @@ package ch.ralena.activitypractice.fragments;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.Duration;
 import org.joda.time.Hours;
 import org.joda.time.Months;
 import org.joda.time.Weeks;
@@ -24,11 +23,9 @@ public class AgeCalculatorPresenter {
 		DateTime today = new DateTime().withTimeAtStartOfDay();
 		DateTime birthDate = today.minusYears(years).minusMonths(months).minusDays(days);
 
-		Duration duration = new Duration(birthDate, today);
-
 		Hours numHours = Hours.hoursBetween(birthDate, today);
 		Days numDays = numHours.toStandardDays();
-		Weeks numWeeks = Weeks.weeksBetween(birthDate, today);
+		Weeks numWeeks = numHours.toStandardWeeks();
 		Months numMonths = Months.monthsBetween(birthDate, today);
 		view.showHours(numHours.getHours());
 		view.showDays(numDays.getDays());
