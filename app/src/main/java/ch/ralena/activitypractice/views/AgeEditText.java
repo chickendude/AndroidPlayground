@@ -111,52 +111,45 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 				days = parts[2];
 
 				if (start < 4) {
-					curPosition = 3;
 					years = years.replace("_", "");
-					if (years.length() >= 3)
-						curPosition = 12;
-					int prefixSize = 3 - years.length();
-					for (int i = 0; i < prefixSize; i++) {
-						years = "_" + years;
-					}
-					if (years.length() > 3) {
-						years = years.substring(years.length() - 3);
-					}
+					curPosition = years.length() < 3 ? 3 : 12;
+					years = leftPadString(years, 3, 999);
 				} else if (start < 13) {
-					curPosition = 12;
 					months = months.replace("_", "");
-					if (months.length() >= 2)
-						curPosition = 22;
-					int prefixSize = 2 - months.length();
-					for (int i = 0; i < prefixSize; i++) {
-						months = "_" + months;
-					}
-					if (months.length() > 2) {
-						months = months.substring(months.length() - 2);
-					}
+					curPosition = months.length() < 2 ? 12 : 22;
+					months = leftPadString(months, 2, 11);
 				} else if (start > 19) {
-					curPosition = 22;
 					days = days.replace("_", "");
-					int prefixSize = 2 - days.length();
-					for (int i = 0; i < prefixSize; i++) {
-						days = "_" + days;
-					}
-					if (days.length() > 2) {
-						days = days.substring(days.length() - 2);
-					}
+					curPosition = 22;
+					days = leftPadString(days, 2, 30);
 				}
 //				setSelection(curPosition);
 			}
 		}
 
+		String leftPadString(String string, int size, int maxValue) {
+
+			// trim off left part of string if it's too long
+			if (string.length() > size)
+				string = string.substring(string.length() - size);
+
+			if (!string.isEmpty()) {
+				int value = Integer.parseInt(string);
+				string = "" + (value > maxValue ? maxValue : value);
+			}
+
+			// remove trailing 0's
+			// left pad string with underscores
+			return String.format("%" + size + "s", string).replace(" ", "_");
+		}
 
 		@Override
 		public void afterTextChanged(Editable editable) {
 			removeTextChangedListener(textWatcher);
 			setText(String.format(TEMPLATE, years, months, days));
-			cursorPositionBlocked = false;
+//			cursorPositionBlocked = false;
 			setSelection(curPosition);
-			cursorPositionBlocked = true;
+//			cursorPositionBlocked = true;
 			addTextChangedListener(textWatcher);
 		}
 	};
