@@ -71,6 +71,7 @@
 				android:textSize="20sp"/>
 
 			<TextView
+				android:id="@+id/monthsValue"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="20dp"
@@ -79,6 +80,7 @@
 				tools:text="100 months"/>
 
 			<TextView
+				android:id="@+id/weeksValue"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="20dp"
@@ -87,6 +89,7 @@
 				tools:text="100 weeks"/>
 
 			<TextView
+				android:id="@+id/daysValue"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="20dp"
@@ -95,6 +98,7 @@
 				tools:text="100 days"/>
 
 			<TextView
+				android:id="@+id/hoursValue"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginLeft="20dp"

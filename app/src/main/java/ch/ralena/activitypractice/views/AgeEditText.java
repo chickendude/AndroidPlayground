@@ -16,7 +16,22 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 	String months = "__";
 	String days = "__";
 
-	boolean cursorPositionBlocked;
+	public int getYears() {
+		return stringToInt("___", years);
+	}
+
+	public int getMonths() {
+		return stringToInt("__", months);
+	}
+
+	public int getDays() {
+		return stringToInt("__", days);
+	}
+
+	private int stringToInt(String empty, String string) {
+		// make sure string isn't empty, if it is return 0 to avoid parsing error
+		return string.equals(empty) ? 0 : Integer.parseInt(string.replace("_", ""));
+	}
 
 	private static final String TAG = AgeEditText.class.getSimpleName();
 
@@ -36,7 +51,6 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 	}
 
 	private void setUpEditText() {
-		cursorPositionBlocked = false;
 		setInputType(InputType.TYPE_CLASS_NUMBER);
 		setText(String.format(TEMPLATE, years, months, days));
 		setLongClickable(false);
@@ -67,8 +81,6 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 
 	@Override
 	protected void onSelectionChanged(int selStart, int selEnd) {
-		if (cursorPositionBlocked)
-			return;
 		if (getText().length() > 0) {
 			if (selStart < 9 && selStart != 3) {
 				setSelection(3);
@@ -103,6 +115,7 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 		@Override
 		public void onTextChanged(CharSequence s, int start, int end, int count) {
 			curPosition = start;
+			// split up string and make sure values are correct
 			String[] parts = s.toString().split(" [a-z]+[ ]?");
 			if (parts.length == 3) {
 				curPosition = 0;
@@ -123,7 +136,6 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 					curPosition = 22;
 					days = leftPadString(days, 2, 30);
 				}
-//				setSelection(curPosition);
 			}
 		}
 
@@ -147,9 +159,7 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 		public void afterTextChanged(Editable editable) {
 			removeTextChangedListener(textWatcher);
 			setText(String.format(TEMPLATE, years, months, days));
-//			cursorPositionBlocked = false;
 			setSelection(curPosition);
-//			cursorPositionBlocked = true;
 			addTextChangedListener(textWatcher);
 		}
 	};
