@@ -10,18 +10,14 @@ import java.util.Locale;
 
 import ch.ralena.activitypractice.contracts.AgeCalculatorContract;
 
-/**
- * Created by oversluij on 12/24/2017.
- */
+class AgeCalculatorPresenter {
+	private AgeCalculatorContract view;
 
-public class AgeCalculatorPresenter {
-	AgeCalculatorContract view;
-
-	public AgeCalculatorPresenter(AgeCalculatorContract view) {
+	AgeCalculatorPresenter(AgeCalculatorContract view) {
 		this.view = view;
 	}
 
-	public void updateTime(int years, int months, int days) {
+	void updateTime(int years, int months, int days) {
 		DateTime today = new DateTime().withTimeAtStartOfDay();
 		DateTime birthDate = today.minusYears(years).minusMonths(months).minusDays(days);
 
