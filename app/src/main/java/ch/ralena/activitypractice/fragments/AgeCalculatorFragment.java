@@ -3,7 +3,6 @@ package ch.ralena.activitypractice.fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,8 +14,7 @@ import ch.ralena.activitypractice.R;
 import ch.ralena.activitypractice.contracts.AgeCalculatorContract;
 import ch.ralena.activitypractice.views.AgeEditText;
 
-public class AgeCalculatorFragment extends Fragment implements AgeCalculatorContract {
-	View root;
+public class AgeCalculatorFragment extends BaseFragment implements AgeCalculatorContract {
 	TextView monthsValue;
 	TextView weeksValue;
 	TextView daysValue;
@@ -34,14 +32,14 @@ public class AgeCalculatorFragment extends Fragment implements AgeCalculatorCont
 		presenter = new AgeCalculatorPresenter(this);
 
 		// inflate layout
-		root = inflater.inflate(R.layout.fragment_age_calculator, container, false);
+		rootView = inflater.inflate(R.layout.fragment_age_calculator, container, false);
 
-		monthsValue = root.findViewById(R.id.monthsValue);
-		weeksValue = root.findViewById(R.id.weeksValue);
-		daysValue = root.findViewById(R.id.daysValue);
-		hoursValue = root.findViewById(R.id.hoursValue);
+		monthsValue = rootView.findViewById(R.id.monthsValue);
+		weeksValue = rootView.findViewById(R.id.weeksValue);
+		daysValue = rootView.findViewById(R.id.daysValue);
+		hoursValue = rootView.findViewById(R.id.hoursValue);
 
-		ageEdit = root.findViewById(R.id.ageEdit);
+		ageEdit = rootView.findViewById(R.id.ageEdit);
 		ageEdit.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -65,7 +63,7 @@ public class AgeCalculatorFragment extends Fragment implements AgeCalculatorCont
 		// default values
 		presenter.updateTime(0, 0, 0);
 
-		return root;
+		return rootView;
 	}
 
 	@Override
