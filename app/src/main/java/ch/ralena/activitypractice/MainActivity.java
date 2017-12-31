@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import ch.ralena.activitypractice.fragments.AgeCalculatorFragment;
+import ch.ralena.activitypractice.fragments.BaseFragment;
 import ch.ralena.activitypractice.fragments.ColorPickerFragment;
 import ch.ralena.activitypractice.fragments.LoginFragment;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE);
+		sharedPreferences = getSharedPreferences(BaseFragment.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
 		// create tabs
 		tabLayout = findViewById(R.id.tabLayout);
