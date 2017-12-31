@@ -28,6 +28,13 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 		return stringToInt("__", days);
 	}
 
+	public void setDate(int newYears, int newMonths, int newDays) {
+		String y = leftPadString("" + newYears, 3, 999);
+		String m = leftPadString("" + newMonths, 2, 12);
+		String d = leftPadString("" + newDays, 2, 30);
+		setText(String.format(TEMPLATE, y, m, d));
+	}
+
 	private int stringToInt(String empty, String string) {
 		// make sure string isn't empty, if it is return 0 to avoid parsing error
 		return string.equals(empty) ? 0 : Integer.parseInt(string.replace("_", ""));
@@ -139,22 +146,6 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 			}
 		}
 
-		String leftPadString(String string, int size, int maxValue) {
-
-			// trim off left part of string if it's too long
-			if (string.length() > size)
-				string = string.substring(string.length() - size);
-
-			if (!string.isEmpty()) {
-				int value = Integer.parseInt(string);
-				string = "" + (value > maxValue ? maxValue : value);
-			}
-
-			// remove trailing 0's
-			// left pad string with underscores
-			return String.format("%" + size + "s", string).replace(" ", "_");
-		}
-
 		@Override
 		public void afterTextChanged(Editable editable) {
 			removeTextChangedListener(textWatcher);
@@ -163,4 +154,21 @@ public class AgeEditText extends android.support.v7.widget.AppCompatEditText {
 			addTextChangedListener(textWatcher);
 		}
 	};
+
+	String leftPadString(String number, int size, int maxValue) {
+
+		// trim off left part of string if it's too long
+		if (number.length() > size)
+			number = number.substring(number.length() - size);
+
+		if (!number.isEmpty()) {
+			int value = Integer.parseInt(number);
+			number = "" + (value > maxValue ? maxValue : value);
+		}
+
+		// remove trailing 0's
+		// left pad string with underscores
+		return String.format("%" + size + "s", number).replace(" ", "_");
+	}
+
 }

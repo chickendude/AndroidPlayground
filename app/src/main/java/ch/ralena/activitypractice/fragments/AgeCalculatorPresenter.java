@@ -3,7 +3,10 @@ package ch.ralena.activitypractice.fragments;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Hours;
+import org.joda.time.Interval;
 import org.joda.time.Months;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.joda.time.Weeks;
 
 import java.util.Locale;
@@ -35,5 +38,13 @@ class AgeCalculatorPresenter {
 		if (value != 1)
 			datePart = datePart + "s";
 		return String.format(Locale.getDefault(), "%d %s", value, datePart);
+	}
+
+	void updateBirthDate(int year, int month, int day) {
+		DateTime today = new DateTime().withTimeAtStartOfDay();
+		DateTime birthDate = new DateTime(year, month + 1, day, 0, 0);
+		Interval interval = new Interval(birthDate, today);
+		Period difference = interval.toPeriod().normalizedStandard(PeriodType.yearMonthDay());
+		view.updateAge(difference.getYears(), difference.getMonths(), difference.getDays());
 	}
 }

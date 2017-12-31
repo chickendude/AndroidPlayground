@@ -9,4 +9,5 @@ public interface AgeCalculatorContract {
 	void showWeeks(int weeks);
 	void showDays(int days);
 	void showHours(int hours);
+	void updateAge(int years, int months, int days);
 }
