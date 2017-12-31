@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import ch.ralena.activitypractice.R;
 import ch.ralena.activitypractice.contracts.AgeCalculatorContract;
@@ -35,7 +36,7 @@ public class AgeCalculatorFragment extends BaseFragment implements AgeCalculator
 
 	DatePickerDialog.OnDateSetListener onDateSetListener = (datePicker, year, month, day) -> {
 		// update birthdatetext to new date
-		DateFormat df = new SimpleDateFormat("MMM d, yyyy");
+		DateFormat df = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(year, month, day, 0, 0);
 		birthDateText.setText(df.format(calendar.getTime()));
