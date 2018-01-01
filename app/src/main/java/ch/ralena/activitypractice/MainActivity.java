@@ -14,6 +14,7 @@ import ch.ralena.activitypractice.fragments.AgeCalculatorFragment;
 import ch.ralena.activitypractice.fragments.BaseFragment;
 import ch.ralena.activitypractice.fragments.ColorPickerFragment;
 import ch.ralena.activitypractice.fragments.LoginFragment;
+import ch.ralena.activitypractice.fragments.TimerFragment;
 
 public class MainActivity extends AppCompatActivity {
 	public static final String PREF_LOGGED_IN = "pref_logged_in";
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
 		// create tabs
 		tabLayout = findViewById(R.id.tabLayout);
-		String[] fragmentTitles = {"Login", "Age Calculator", "Color Picker"};
+		String[] fragmentTitles = {"Login", "Age Calculator", "Color Picker", "Timer"};
 		int tabId = 0;
 		for (String title : fragmentTitles) {
 			TabLayout.Tab tab = tabLayout.newTab();
@@ -78,13 +79,15 @@ public class MainActivity extends AppCompatActivity {
 						return new AgeCalculatorFragment();
 					case 2:
 						return new ColorPickerFragment();
+					case 3:
+						return new TimerFragment();
 				}
 				return new LoginFragment();
 			}
 
 			@Override
 			public int getCount() {
-				return 3;
+				return 4;
 			}
 		});
 
