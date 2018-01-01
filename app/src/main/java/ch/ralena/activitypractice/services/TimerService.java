@@ -1,20 +1,25 @@
 package ch.ralena.activitypractice.services;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
+
+import ch.ralena.activitypractice.R;
 
 public class TimerService extends Service {
-	public final static int START_TIMER = 0;
-	public final static int STOP_TIMER = 1;
-	public final static int RESET_TIMER = 2;
+	public static final int NOTIFICATION_ID = 1337;
+	public static final String NOTIFICATION_CHANNEL_ID = "1338";
+	public static final String NOTIFICATION_CHANNEL_NAME = "playground-timer";
 
 	TimerBinder binder;
 
 	long startTime = 0;
-	long endTime = 0;
 	long duration = 0;
 	boolean isRunning = false;
 
@@ -29,18 +34,42 @@ public class TimerService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		binder = new TimerBinder();
+		startTime = 0;
+		duration = 0;
+		isRunning = false;
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		isRunning = false;
 		return START_STICKY;
 	}
 
 	@Nullable
 	@Override
 	public IBinder onBind(Intent intent) {
+		// custom service binder to give us access to service methods
 		return binder;
+	}
+
+	public void sendToForeground() {
+		// if SDK > 26, we need to create a channel
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+			NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			NotificationChannel channel = new NotificationChannel(
+					NOTIFICATION_CHANNEL_ID,
+					NOTIFICATION_CHANNEL_NAME,
+					NotificationManager.IMPORTANCE_LOW
+			);
+			manager.createNotificationChannel(channel);
+		}
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+		builder.setSmallIcon(R.mipmap.ic_launcher);
+		startForeground(NOTIFICATION_ID, builder.build());
+	}
+
+	public void sendToBackground() {
+		stopForeground(true);
 	}
 
 	public void startTimer() {
@@ -58,8 +87,7 @@ public class TimerService extends Service {
 	}
 
 	public void resetTimer() {
-		startTime = 0;
-		endTime = 0;
+		startTime = System.currentTimeMillis();
 		duration = 0;
 	}
 

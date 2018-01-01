@@ -66,6 +66,7 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 		resetButton.setOnClickListener(view -> {
 			if (isBoundToService) {
 				timerService.resetTimer();
+				showTime();
 			}
 		});
 
@@ -85,6 +86,12 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 		super.onStop();
 		// stop service
 		if (isBoundToService) {
+			if (timerService.isRunning()) {
+				timerService.sendToForeground();
+			} else {
+				timerService.stopSelf();
+				timerService.stopForeground(true);
+			}
 			activity.unbindService(this);
 			isBoundToService = false;
 		}
@@ -103,6 +110,7 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 		Log.d("TAG", "Bound");
 		isBoundToService = true;
 		timerService = ((TimerService.TimerBinder) iBinder).getService();
+		timerService.sendToBackground();
 	}
 
 	@Override
