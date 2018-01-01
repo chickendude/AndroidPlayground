@@ -1,7 +1,6 @@
 package ch.ralena.activitypractice.fragments;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 
 	private FragmentActivity activity;
 	private TextView timeValue;
+	private Button startStopButton;
 
 	private TimerService timerService;
 	private Messenger messenger;
@@ -46,7 +46,7 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 		rootView = inflater.inflate(R.layout.fragment_timer, container, false);
 		timeValue = rootView.findViewById(R.id.timeValue);
 
-		Button startStopButton = rootView.findViewById(R.id.startStopButton);
+		startStopButton = rootView.findViewById(R.id.startStopButton);
 		Button resetButton = rootView.findViewById(R.id.resetButton);
 
 		startStopButton.setOnClickListener(view -> {
@@ -78,7 +78,8 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 		super.onStart();
 		// start timer service
 		Intent intent = new Intent(getContext(), TimerService.class);
-		activity.bindService(intent, this, Context.BIND_AUTO_CREATE);
+		activity.startService(intent);
+		activity.bindService(intent, this, 0);
 	}
 
 	@Override
@@ -111,6 +112,12 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 		isBoundToService = true;
 		timerService = ((TimerService.TimerBinder) iBinder).getService();
 		timerService.sendToBackground();
+		if (timerService.isRunning()) {
+			startStopButton.setText("Stop");
+			showTime();
+		} else {
+			startStopButton.setText("Start");
+		}
 	}
 
 	@Override

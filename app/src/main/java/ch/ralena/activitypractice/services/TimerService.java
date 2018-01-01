@@ -1,5 +1,6 @@
 package ch.ralena.activitypractice.services;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -8,7 +9,6 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 
 import ch.ralena.activitypractice.R;
 
@@ -52,20 +52,28 @@ public class TimerService extends Service {
 	}
 
 	public void sendToForeground() {
+		Notification.Builder builder = new Notification.Builder(this);
 		// if SDK > 26, we need to create a channel
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 			NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			NotificationChannel channel = new NotificationChannel(
-					NOTIFICATION_CHANNEL_ID,
-					NOTIFICATION_CHANNEL_NAME,
-					NotificationManager.IMPORTANCE_LOW
-			);
-			manager.createNotificationChannel(channel);
+			if (manager != null) {
+				NotificationChannel channel = new NotificationChannel(
+						NOTIFICATION_CHANNEL_ID,
+						NOTIFICATION_CHANNEL_NAME,
+						NotificationManager.IMPORTANCE_LOW
+				);
+				manager.createNotificationChannel(channel);
+				builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+			}
 		}
-
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-		builder.setSmallIcon(R.mipmap.ic_launcher);
-		startForeground(NOTIFICATION_ID, builder.build());
+		builder.setContentTitle("Timer Running")
+				.setContentText("Click to return!")
+				.setUsesChronometer(true)
+				.setOngoing(true)
+				.setWhen(System.currentTimeMillis() - ((long) (getTimeInSeconds() * 1000)))
+				.setSmallIcon(R.mipmap.ic_launcher);
+		Notification notification = builder.build();
+		startForeground(NOTIFICATION_ID, notification);
 	}
 
 	public void sendToBackground() {
