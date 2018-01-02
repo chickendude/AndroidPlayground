@@ -15,6 +15,7 @@ import ch.ralena.activitypractice.fragments.BaseFragment;
 import ch.ralena.activitypractice.fragments.ColorPickerFragment;
 import ch.ralena.activitypractice.fragments.LoginFragment;
 import ch.ralena.activitypractice.fragments.TimerFragment;
+import ch.ralena.activitypractice.services.TimerService;
 
 public class MainActivity extends AppCompatActivity {
 	public static final String PREF_LOGGED_IN = "pref_logged_in";
@@ -93,5 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
 		// coordinate viewpager and tablayout
 		viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+		// check if we are returning from the timer notification
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			if (extras.getBoolean(TimerService.EXTRA_IS_TIMER, false)) {
+				viewPager.setCurrentItem(3, false);
+			}
+		}
 	}
 }

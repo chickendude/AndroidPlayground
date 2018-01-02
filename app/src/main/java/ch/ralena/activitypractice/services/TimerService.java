@@ -18,6 +18,7 @@ public class TimerService extends Service {
 	public static final int NOTIFICATION_ID = 1337;
 	public static final String NOTIFICATION_CHANNEL_ID = "1338";
 	public static final String NOTIFICATION_CHANNEL_NAME = "playground-timer";
+	public static final String EXTRA_IS_TIMER = "extra_is_timer";
 
 	TimerBinder binder;
 
@@ -70,9 +71,10 @@ public class TimerService extends Service {
 		}
 
 		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra(EXTRA_IS_TIMER, true);
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				this,
-				1,
+				100,
 				intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 

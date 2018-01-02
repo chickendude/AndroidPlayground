@@ -11,7 +11,6 @@ import android.os.Messenger;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +111,6 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 	@Override
 	public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
 		// get our messenger and show that we're bound to the service
-		Log.d("TAG", "Bound");
 		isBoundToService = true;
 		timerService = ((TimerService.TimerBinder) iBinder).getService();
 		timerService.sendToBackground();
@@ -126,7 +124,6 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 	@Override
 	public void onServiceDisconnected(ComponentName componentName) {
 		// update service bound boolean
-		Log.d("TAG", "Unbound");
 		isBoundToService = false;
 	}
 
