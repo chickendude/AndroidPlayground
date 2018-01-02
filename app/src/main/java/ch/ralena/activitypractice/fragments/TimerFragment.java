@@ -56,9 +56,7 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 					startStopButton.setText("Start");
 					handler.removeMessages(MSG_GET_TIME);
 				} else {
-					timerService.startTimer();
-					startStopButton.setText("Stop");
-					handler.sendEmptyMessage(MSG_GET_TIME);
+					startTimer();
 				}
 			}
 		});
@@ -71,6 +69,12 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 		});
 
 		return rootView;
+	}
+
+	private void startTimer() {
+		timerService.startTimer();
+		startStopButton.setText("Stop");
+		handler.sendEmptyMessage(MSG_GET_TIME);
 	}
 
 	@Override
@@ -113,8 +117,7 @@ public class TimerFragment extends BaseFragment implements ServiceConnection {
 		timerService = ((TimerService.TimerBinder) iBinder).getService();
 		timerService.sendToBackground();
 		if (timerService.isRunning()) {
-			startStopButton.setText("Stop");
-			showTime();
+			startTimer();
 		} else {
 			startStopButton.setText("Start");
 		}

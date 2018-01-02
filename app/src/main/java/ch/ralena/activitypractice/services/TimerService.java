@@ -3,6 +3,7 @@ package ch.ralena.activitypractice.services;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import ch.ralena.activitypractice.MainActivity;
 import ch.ralena.activitypractice.R;
 
 public class TimerService extends Service {
@@ -66,12 +68,21 @@ public class TimerService extends Service {
 				builder.setChannelId(NOTIFICATION_CHANNEL_ID);
 			}
 		}
+
+		Intent intent = new Intent(this, MainActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(
+				this,
+				1,
+				intent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
+
 		builder.setContentTitle("Timer Running")
 				.setContentText("Click to return!")
 				.setUsesChronometer(true)
 				.setOngoing(true)
 				.setWhen(System.currentTimeMillis() - ((long) (getTimeInSeconds() * 1000)))
-				.setSmallIcon(R.mipmap.ic_launcher);
+				.setSmallIcon(R.mipmap.ic_launcher)
+				.setContentIntent(pendingIntent);
 		Notification notification = builder.build();
 		startForeground(NOTIFICATION_ID, notification);
 	}
