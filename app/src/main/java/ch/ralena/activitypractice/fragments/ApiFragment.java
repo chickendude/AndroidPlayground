@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ApiFragment extends BaseFragment {
+	ProgressBar progressBar;
 	List<Artist> artists = new ArrayList<>();
 	ApiAdapter adapter;
 
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		// inflate layout
 		rootView = inflater.inflate(R.layout.fragment_api, container, false);
+
+		progressBar = rootView.findViewById(R.id.progressBar);
 
 		LastFmApi lastFmApi = LastFmService.getLastFmService();
 		lastFmApi.getArtists().enqueue(new Callback<ArtistResults>() {
@@ -41,6 +45,7 @@ public class ApiFragment extends BaseFragment {
 						ArtistResults results = response.body();
 						artists.addAll(results.getArtists().getArtists());
 						adapter.notifyDataSetChanged();
+						progressBar.setVisibility(View.GONE);
 					}
 				}
 			}
