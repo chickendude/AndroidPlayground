@@ -15,10 +15,16 @@ import ch.ralena.activitypractice.R;
 import ch.ralena.activitypractice.models.artists.Artist;
 
 public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.ApiViewHolder> {
-	List<Artist> artists;
+	public interface OnArtistClickedListener {
+		void onArtistsClicked(Artist artist);
+	}
 
-	public ApiAdapter(List<Artist> artists) {
+	List<Artist> artists;
+	OnArtistClickedListener listener;
+
+	public ApiAdapter(List<Artist> artists, OnArtistClickedListener listener) {
 		this.artists = artists;
+		this.listener = listener;
 	}
 
 	@Override
@@ -50,6 +56,7 @@ public class ApiAdapter extends RecyclerView.Adapter<ApiAdapter.ApiViewHolder> {
 		}
 
 		public void bindView(Artist artist) {
+			itemView.setOnClickListener(view -> listener.onArtistsClicked(artist));
 			listenersValue.setText(String.format("%s listeners", artist.getListeners()));
 			artistNameValue.setText(artist.getName());
 			Picasso.with(itemView.getContext())
