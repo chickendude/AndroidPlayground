@@ -35,4 +35,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 	// 3rd party
 	implementation 'joda-time:joda-time:2.9.9'
+	implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+	implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+	implementation 'com.squareup.picasso:picasso:2.5.2'
 }

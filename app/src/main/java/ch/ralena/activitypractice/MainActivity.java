@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import ch.ralena.activitypractice.fragments.AgeCalculatorFragment;
+import ch.ralena.activitypractice.fragments.ApiFragment;
 import ch.ralena.activitypractice.fragments.BaseFragment;
 import ch.ralena.activitypractice.fragments.ColorPickerFragment;
 import ch.ralena.activitypractice.fragments.LoginFragment;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 		// create tabs
 		tabLayout = findViewById(R.id.tabLayout);
-		String[] fragmentTitles = {"Login", "Age Calculator", "Color Picker", "Timer"};
+		String[] fragmentTitles = {"Login", "Age Calculator", "Color Picker", "Timer", "API Fetch"};
 		int tabId = 0;
 		for (String title : fragmentTitles) {
 			TabLayout.Tab tab = tabLayout.newTab();
@@ -82,13 +83,15 @@ public class MainActivity extends AppCompatActivity {
 						return new ColorPickerFragment();
 					case 3:
 						return new TimerFragment();
+					case 4:
+						return new ApiFragment();
 				}
 				return new LoginFragment();
 			}
 
 			@Override
 			public int getCount() {
-				return 4;
+				return fragmentTitles.length;
 			}
 		});
 
